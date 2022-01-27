@@ -14,10 +14,18 @@ const routes = [
     path: '/terms-conditions',
     name: 'Terms And Condition',
     // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
+    // this generates a separate chunk (terms-and-condition.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/TermsCondition.vue')
-  }
+    component: () => import(/* webpackChunkName: "terms-and-condition" */ '../views/TermsCondition.vue')
+  },
+  {
+    path: '/products',
+    name: 'Products',
+    // route level code-splitting
+    // this generates a separate chunk (products.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "products" */ '../views/Products.vue')
+  },
 ]
 
 const router = new VueRouter({

@@ -4,7 +4,7 @@
       <h1>Terms & Conditions</h1>
       <p>Updated at 2022-01-01</p>
     </div>
-    <div class="container p-4">
+    <div class="container p-4" style="color: #FFDD93">
       <div class="row">
         <div class="col">
               <article>

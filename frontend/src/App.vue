@@ -17,5 +17,13 @@ export default {
 </script>
 
 <style>
+  h1 {
+    font-family: 'Dongle', sans-serif;
+    font-size: 4em;
+    color: cadetblue;
+  }
 
+  section {
+    color: #FFDD93;
+  }
 </style>
