@@ -41,7 +41,7 @@
                   <li>Device: any internet connected device such as a phone, tablet, computer or any other device that can be used to visit Sharing is Caring and use the services.</li>
                   <li>Service: refers to the service provided by Sharing is Caring as described in the relative terms (if available) and on this platform.</li>
                   <li>Third-party service: refers to advertisers, contest sponsors, promotional and marketing partners, and others who provide our content or whose products or services we think may interest you.</li>
-                  <li>Website: Sharing is Caring's site, which can be accessed via this URL: sharingiscaring.muhammadilham.dev</li>
+                  <li>Website: Sharing is Caring's site, which can be accessed via this URL: sharingiscaring.muhammadilham.xyz</li>
                   <li>You: a person or entity that is registered with Sharing is Caring to use the Services.</li>
                 </ul>
 
