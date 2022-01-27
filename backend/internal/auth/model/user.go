@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -26,4 +27,14 @@ func (u *User) SetPhoneNumber(phone string) {
 func (u *User) ValidateEmail() bool {
 	_, err := mail.ParseAddress(u.Email)
 	return err == nil
+}
+
+func (u *User) HashPassword() error {
+	hashed, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	u.Password = string(hashed)
+	return nil
 }

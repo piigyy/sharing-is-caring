@@ -117,3 +117,47 @@ func TestUser_ValidateEmail(t *testing.T) {
 		})
 	}
 }
+
+func TestUser_HashPassword(t *testing.T) {
+	type fields struct {
+		ID        primitive.ObjectID
+		Name      string
+		Email     string
+		Phone     string
+		Password  string
+		CreateAt  time.Time
+		Updated   time.Time
+		DeletedAt *time.Time
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		wantErr error
+	}{
+		{
+			name: "success hash User.Password",
+			fields: fields{
+				Password: "verystrongpassword",
+			},
+			wantErr: nil,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			u := &model.User{
+				ID:        tt.fields.ID,
+				Name:      tt.fields.Name,
+				Email:     tt.fields.Email,
+				Phone:     tt.fields.Phone,
+				Password:  tt.fields.Password,
+				CreateAt:  tt.fields.CreateAt,
+				Updated:   tt.fields.Updated,
+				DeletedAt: tt.fields.DeletedAt,
+			}
+
+			err := u.HashPassword()
+			assert.NotEqual(t, tt.fields.Password, u.Password, "after hashing User.Password should not equal to plain password")
+			assert.Equal(t, nil, err, fmt.Sprintf("User.HashPassword() error = %v, wantErr %v", err, tt.wantErr))
+		})
+	}
+}
