@@ -1,6 +1,7 @@
 package model
 
 import (
+	"net/mail"
 	"strings"
 	"time"
 
@@ -20,4 +21,9 @@ type User struct {
 
 func (u *User) SetPhoneNumber(phone string) {
 	u.Phone = strings.Join(strings.Fields(phone), "")
+}
+
+func (u *User) ValidateEmail() bool {
+	_, err := mail.ParseAddress(u.Email)
+	return err == nil
 }
