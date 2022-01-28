@@ -1,10 +1,10 @@
 <template>
   <div class="about mt-3">
-    <div id="tnc-title" style="text-align: center;">
-      <h1>Terms & Conditions</h1>
-      <p>Updated at 2022-01-01</p>
+    <div id="tnc-title">
+      <h1 class="tc-header">Terms & Conditions</h1>
+      <p><i class="small-text">Updated at 2022-01-01</i></p>
     </div>
-    <div class="container p-4" style="color: #FFDD93">
+    <div class="container p-3" style="color: #FFDD93">
       <div class="row">
         <div class="col">
               <article>
@@ -171,3 +171,24 @@
     </div>
   </div>
 </template>
+
+
+<style scoped>
+  .small-text {
+    color: whitesmoke;
+    margin: 0;
+    padding: 0;
+    margin-top: 0;
+    font-size: 0.2;
+  }
+
+  #tnc-title {
+    text-align: center;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .tc-header {
+    margin-bottom: 0;
+  }
+</style>
