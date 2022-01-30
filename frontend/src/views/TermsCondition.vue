@@ -163,7 +163,7 @@
 
               <h1>Contact Us</h1>
               <p>Don't hesitate to contact us if you have any questions.</p>
-              <ul><li>Via Email:  <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d7baa2bfb3f9bebebebbbfb6ba97b0bab6bebbf9b4b8ba">[email&#160;protected]</a></li>
+              <ul><li>Via Email:  <a href="mailto:muhd.iiilham@gmail.com">Muhammad Ilham</a></li>
               </ul>
               </article>
         </div>
