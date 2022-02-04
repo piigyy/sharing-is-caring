@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"time"
 
@@ -80,7 +79,6 @@ func (s *auth) RegisterUser(ctx context.Context, payload model.RegisterUserReque
 	userID, err = s.authRepository.CreateUser(ctx, user)
 	if err != nil {
 		log.Printf("error trying to save user entity to mongodb: %v\n", err)
-		fmt.Println(err.Error())
 		if s.authRepository.DuplicateError(ctx, err) {
 			err = model.ErrUserDuplicated
 			return
