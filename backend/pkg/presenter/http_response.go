@@ -8,40 +8,41 @@ import (
 type Response struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data"`
-	Errors  []string    `json:"errors"`
+	Message string      `json:"message"`
+	Error   interface{} `json:"error"`
 }
 
 func SuccessReponse(w http.ResponseWriter, data interface{}, httpCode int) {
 	resp := Response{
 		Success: true,
+		Message: "success",
 		Data:    data,
-		Errors:  []string{},
+		Error:   nil,
 	}
 	respJSON, _ := json.Marshal(resp)
 	w.WriteHeader(httpCode)
 	w.Write(respJSON)
 }
 
-func ErrResponse(w http.ResponseWriter, httpCode int, errs []error) {
+func ErrResponse(w http.ResponseWriter, httpCode int, err error) {
 	resp := Response{
 		Success: false,
+		Message: err.Error(),
 		Data:    nil,
-		Errors:  []string{},
+		Error:   err,
 	}
 
-	for _, err := range errs {
-		resp.Errors = append(resp.Errors, err.Error())
-	}
 	respJSON, _ := json.Marshal(resp)
 	w.WriteHeader(httpCode)
 	w.Write(respJSON)
 }
 
-func UnknownErrResp(w http.ResponseWriter) {
+func UnknownErrResp(w http.ResponseWriter, err error) {
 	resp := Response{
 		Success: false,
 		Data:    nil,
-		Errors:  []string{"internal server error"},
+		Message: http.StatusText(http.StatusInternalServerError),
+		Error:   err,
 	}
 
 	respJSON, _ := json.Marshal(resp)
