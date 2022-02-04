@@ -16,3 +16,16 @@ type (
 		RepositoryWriter
 	}
 )
+
+type (
+	ServiceReader interface {
+		Login(ctx context.Context, payload LoginRequest) (response LoginResponse, err error)
+	}
+
+	ServiceWriter interface{}
+
+	ServiceReaderWriter interface {
+		ServiceReader
+		ServiceWriter
+	}
+)
