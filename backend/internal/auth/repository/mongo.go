@@ -7,7 +7,9 @@ import (
 
 	"github.com/piigyy/sharing-is-caring/internal/auth/model"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type authRepository struct {
@@ -15,6 +17,18 @@ type authRepository struct {
 }
 
 func NewUserMongoDB(collection *mongo.Collection) *authRepository {
+	options := []mongo.IndexModel{
+		{
+			Keys:    bson.D{{Key: "email", Value: 1}},
+			Options: options.Index().SetUnique(true),
+		},
+		{
+			Keys:    bson.D{{Key: "phone", Value: 1}},
+			Options: options.Index().SetUnique(true),
+		},
+	}
+
+	collection.Indexes().CreateMany(context.Background(), options)
 	return &authRepository{
 		collection: collection,
 	}
@@ -34,4 +48,33 @@ func (r *authRepository) GetUserByEmail(ctx context.Context, email string) (user
 	}
 
 	return
+}
+
+func (r *authRepository) CreateUser(ctx context.Context, entity model.User) (userID string, err error) {
+	var (
+		result   *mongo.InsertOneResult
+		oid      primitive.ObjectID
+		oidValid bool
+	)
+
+	log.Println("inserting to mongodb")
+	result, err = r.collection.InsertOne(ctx, &entity)
+	if err != nil {
+		log.Printf("insert user failed: %v\n", err)
+		return
+	}
+
+	log.Println("converting inserted user id")
+	oid, oidValid = result.InsertedID.(primitive.ObjectID)
+	if !oidValid {
+		log.Printf("user object id invalid\n")
+		err = errors.New("invalid object id")
+		return
+	}
+
+	return oid.Hex(), nil
+}
+
+func (r *authRepository) DuplicateError(ctx context.Context, err error) bool {
+	return mongo.IsDuplicateKeyError(err)
 }

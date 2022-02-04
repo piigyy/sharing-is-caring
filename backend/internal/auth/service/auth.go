@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
 	"time"
 
 	"github.com/piigyy/sharing-is-caring/internal/auth/model"
@@ -50,5 +52,53 @@ func (s *auth) Login(ctx context.Context, payload model.LoginRequest) (response 
 		AccessToken:          accessToken,
 		AccessTokenExpiredAt: time.Now().Add(2 * time.Hour),
 		Email:                payload.Email,
+	}, nil
+}
+
+func (s *auth) RegisterUser(ctx context.Context, payload model.RegisterUserRequest) (response model.LoginResponse, err error) {
+	var (
+		passwordHashed      []byte
+		userID, accessToken string
+	)
+
+	log.Println("hashing user password")
+	passwordHashed, err = bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.MinCost)
+	if err != nil {
+		return
+	}
+
+	user := model.User{
+		Name:     payload.Name,
+		Email:    payload.Email,
+		Phone:    payload.Phone,
+		Password: string(passwordHashed),
+		CreateAt: time.Now(),
+		Updated:  time.Now(),
+	}
+
+	log.Println("saving user entity")
+	userID, err = s.authRepository.CreateUser(ctx, user)
+	if err != nil {
+		log.Printf("error trying to save user entity to mongodb: %v\n", err)
+		fmt.Println(err.Error())
+		if s.authRepository.DuplicateError(ctx, err) {
+			err = model.ErrUserDuplicated
+			return
+		}
+
+		return
+	}
+
+	log.Println("generating user access token")
+	accessToken, err = s.tokenCreator.GenerateAccessToken(ctx, userID, user.Email, user.Name)
+	if err != nil {
+		return
+	}
+
+	return model.LoginResponse{
+		ID:                   userID,
+		Email:                user.Email,
+		AccessToken:          accessToken,
+		AccessTokenExpiredAt: time.Now().Add(12 * time.Hour),
 	}, nil
 }

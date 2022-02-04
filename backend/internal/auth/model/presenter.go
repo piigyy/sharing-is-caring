@@ -13,3 +13,10 @@ type LoginResponse struct {
 	Email                string    `json:"email"`
 	AccessTokenExpiredAt time.Time `json:"accessTokenExpiredAt"`
 }
+
+type RegisterUserRequest struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+	Password string `json:"password"`
+}

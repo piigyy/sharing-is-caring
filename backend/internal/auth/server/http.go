@@ -34,6 +34,7 @@ func (s *httpServer) Routes(ctx context.Context) http.Handler {
 	mux.Use(s.APIMiddleware())
 
 	mux.HandleFunc("/api/v1/login", s.Login).Methods(http.MethodPost)
+	mux.HandleFunc("/api/v1/registrations", s.RegisterUser).Methods(http.MethodPost)
 
 	return mux
 }
