@@ -41,7 +41,7 @@ func main() {
 	userCollection := authDB.Collection("user")
 
 	authRepository := repository.NewUserMongoDB(userCollection)
-	tokenCreator := token.NewJWTToken("the secret of kalimdor")
+	tokenCreator := token.NewJWTToken(cfg.JWTSecret)
 	authService := service.NewAuthService(authRepository, tokenCreator)
 	authServer := authServer.NewHTTPServer(cfg, authService)
 

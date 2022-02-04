@@ -1,9 +1,10 @@
 package config
 
 type Config struct {
-	Production bool  `mapstructure:"production"`
-	Port       Port  `mapstructure:"port"`
-	Mongo      Mongo `mapstructure:"mongo"`
+	Production bool   `mapstructure:"production"`
+	Port       Port   `mapstructure:"port"`
+	Mongo      Mongo  `mapstructure:"mongo"`
+	JWTSecret  string `mapstructure:"jwtSsecret"`
 }
 
 type Port struct {
