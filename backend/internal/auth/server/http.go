@@ -11,19 +11,27 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/piigyy/sharing-is-caring/config"
 	"github.com/piigyy/sharing-is-caring/internal/auth/model"
+	"github.com/piigyy/sharing-is-caring/pkg/middleware"
+	"github.com/piigyy/sharing-is-caring/pkg/server"
 	"github.com/rs/cors"
 )
 
 type httpServer struct {
 	cfg         *config.Config
 	authService model.ServiceReaderWriter
+	middleware  middleware.Auth
 }
 
-func NewHTTPServer(cfg *config.Config, authService model.ServiceReaderWriter) *httpServer {
+func NewHTTPServer(
+	cfg *config.Config,
+	authService model.ServiceReaderWriter,
+	middleware middleware.Auth,
+) *httpServer {
 	log.Println("creating new http server")
 	return &httpServer{
 		cfg:         cfg,
 		authService: authService,
+		middleware:  middleware,
 	}
 }
 
@@ -35,6 +43,11 @@ func (s *httpServer) Routes(ctx context.Context) http.Handler {
 
 	mux.HandleFunc("/api/v1/login", s.Login).Methods(http.MethodPost)
 	mux.HandleFunc("/api/v1/registrations", s.RegisterUser).Methods(http.MethodPost)
+
+	mux.HandleFunc("/api/v1/users", server.Adapt(
+		http.HandlerFunc(s.GetUserDetail),
+		s.middleware.Authotization(),
+	).ServeHTTP).Methods(http.MethodGet)
 
 	return mux
 }

@@ -41,7 +41,7 @@ func (s *auth) Login(ctx context.Context, payload model.LoginRequest) (response 
 		return
 	}
 
-	accessToken, err = s.tokenCreator.GenerateAccessToken(ctx, user.ID.Hex(), user.Name, user.Name)
+	accessToken, err = s.tokenCreator.GenerateAccessToken(ctx, user.ID.Hex(), user.Email, user.Name)
 	if err != nil {
 		return
 	}
@@ -99,4 +99,12 @@ func (s *auth) RegisterUser(ctx context.Context, payload model.RegisterUserReque
 		AccessToken:          accessToken,
 		AccessTokenExpiredAt: time.Now().Add(12 * time.Hour),
 	}, nil
+}
+
+func (s *auth) GetUserDetailByEmail(ctx context.Context, email string) (user model.User, err error) {
+	user, err = s.authRepository.GetUserByEmail(ctx, email)
+	if err != nil {
+		return
+	}
+	return
 }

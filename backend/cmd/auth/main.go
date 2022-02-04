@@ -12,6 +12,7 @@ import (
 	authServer "github.com/piigyy/sharing-is-caring/internal/auth/server"
 	"github.com/piigyy/sharing-is-caring/internal/auth/service"
 	"github.com/piigyy/sharing-is-caring/pkg/database"
+	"github.com/piigyy/sharing-is-caring/pkg/middleware"
 	"github.com/piigyy/sharing-is-caring/pkg/server"
 	"github.com/piigyy/sharing-is-caring/pkg/token"
 )
@@ -41,9 +42,10 @@ func main() {
 	userCollection := authDB.Collection("user")
 
 	authRepository := repository.NewUserMongoDB(userCollection)
-	tokenCreator := token.NewJWTToken(cfg.JWTSecret)
-	authService := service.NewAuthService(authRepository, tokenCreator)
-	authServer := authServer.NewHTTPServer(cfg, authService)
+	tokenService := token.NewJWTToken(cfg.JWTSecret)
+	authService := service.NewAuthService(authRepository, tokenService)
+	middleware := middleware.NewMiddleware(tokenService)
+	authServer := authServer.NewHTTPServer(cfg, authService, middleware)
 
 	srv, srvErr := server.New(cfg.Port.Auth)
 	if srvErr != nil {

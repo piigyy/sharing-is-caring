@@ -10,14 +10,14 @@ import (
 )
 
 type User struct {
-	ID        primitive.ObjectID `bson:"_id,omitempty"`
-	Name      string             `bson:"name"`
-	Email     string             `bson:"email"`
-	Phone     string             `bson:"phone"`
-	Password  string             `bson:"password"`
-	CreateAt  time.Time          `bson:"createdAt"`
-	Updated   time.Time          `bson:"updatedAt"`
-	DeletedAt *time.Time         `bson:"deletedAt"`
+	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Name      string             `bson:"name" json:"name"`
+	Email     string             `bson:"email" json:"email"`
+	Phone     string             `bson:"phone" json:"phone"`
+	Password  string             `bson:"password" json:"-"`
+	CreateAt  time.Time          `bson:"createdAt" json:"createAt"`
+	Updated   time.Time          `bson:"updatedAt" json:"updatedAt"`
+	DeletedAt *time.Time         `bson:"deletedAt" json:"-"`
 }
 
 func (u *User) SetPhoneNumber(phone string) {

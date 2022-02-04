@@ -2,10 +2,16 @@ package token
 
 import (
 	"context"
+	"errors"
 	"log"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
+)
+
+var (
+	ErrInvalidSigningMethod error = errors.New("invalid signing method")
+	ErrInvalidToken         error = errors.New("invalid token")
 )
 
 type Claims struct {
@@ -50,4 +56,27 @@ func (s *JWTToken) GenerateAccessToken(ctx context.Context, ID, email, name stri
 	}
 
 	return signerToken, nil
+}
+
+func (s *JWTToken) VerifyToken(accessToken string) (*jwt.Token, error) {
+	jwtToken, err := jwt.Parse(accessToken, func(t *jwt.Token) (interface{}, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, ErrInvalidSigningMethod
+		}
+		return []byte(s.key), nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return jwtToken, nil
+}
+
+func (s *JWTToken) ValidateToken(signedToken *jwt.Token) error {
+	if _, ok := signedToken.Claims.(Claims); !ok && !signedToken.Valid {
+		return ErrInvalidToken
+	}
+
+	return nil
 }

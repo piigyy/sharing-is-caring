@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+type Adapter func(http.Handler) http.Handler
 type server struct {
 	ip       string
 	port     string
@@ -91,4 +92,11 @@ func (s *server) ServeGRPC(ctx context.Context, srv *grpc.Server) error {
 	default:
 		return nil
 	}
+}
+
+func Adapt(handler http.Handler, adapters ...Adapter) http.Handler {
+	for i := len(adapters); i > 0; i-- {
+		handler = adapters[i-1](handler)
+	}
+	return handler
 }

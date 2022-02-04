@@ -23,6 +23,7 @@ type (
 type (
 	ServiceReader interface {
 		Login(ctx context.Context, payload LoginRequest) (response LoginResponse, err error)
+		GetUserDetailByEmail(ctx context.Context, email string) (user User, err error)
 	}
 
 	ServiceWriter interface {
