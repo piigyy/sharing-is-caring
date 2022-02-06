@@ -48,6 +48,10 @@ func (s *httpServer) Routes(ctx context.Context) http.Handler {
 		http.HandlerFunc(s.GetUserDetail),
 		s.middleware.Authotization(),
 	).ServeHTTP).Methods(http.MethodGet)
+	mux.HandleFunc("/api/v1/users", server.Adapt(
+		http.HandlerFunc(s.UpdatePasword),
+		s.middleware.Authotization(),
+	).ServeHTTP).Methods(http.MethodPatch)
 
 	return mux
 }

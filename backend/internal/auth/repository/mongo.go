@@ -79,3 +79,26 @@ func (r *authRepository) CreateUser(ctx context.Context, entity model.User) (use
 func (r *authRepository) DuplicateError(ctx context.Context, err error) bool {
 	return mongo.IsDuplicateKeyError(err)
 }
+
+func (r *authRepository) UpdatePassword(ctx context.Context, email, password string) (err error) {
+	var result *mongo.UpdateResult
+
+	filter := bson.D{{"email", email}}
+	update := bson.D{{"$set", bson.D{{"password", password}}}}
+
+	result, err = r.collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			err = model.ErrUnAuthorized
+			return
+		}
+	}
+
+	if result.MatchedCount < 1 {
+		log.Printf("not documents updated")
+		err = model.ErrUnAuthorized
+		return
+	}
+
+	return nil
+}

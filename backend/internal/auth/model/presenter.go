@@ -20,3 +20,9 @@ type RegisterUserRequest struct {
 	Phone    string `json:"phone"`
 	Password string `json:"password"`
 }
+
+type UpdatePasswordRequest struct {
+	OldPassword string `json:"oldPassword"`
+	NewPassword string `json:"newPassword"`
+	Email       string
+}

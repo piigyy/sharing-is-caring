@@ -12,6 +12,7 @@ type (
 
 	RepositoryWriter interface {
 		CreateUser(ctx context.Context, entity User) (userID string, err error)
+		UpdatePassword(ctx context.Context, email, password string) error
 	}
 
 	RepositoryReaderWriter interface {
@@ -28,6 +29,7 @@ type (
 
 	ServiceWriter interface {
 		RegisterUser(ctx context.Context, payload RegisterUserRequest) (response LoginResponse, err error)
+		UpdatePassword(ctx context.Context, payload UpdatePasswordRequest) error
 	}
 
 	ServiceReaderWriter interface {

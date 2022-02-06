@@ -8,6 +8,7 @@ import (
 
 	"github.com/piigyy/sharing-is-caring/internal/auth/model"
 	"github.com/piigyy/sharing-is-caring/pkg/token"
+	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -107,4 +108,27 @@ func (s *auth) GetUserDetailByEmail(ctx context.Context, email string) (user mod
 		return
 	}
 	return
+}
+
+func (s *auth) UpdatePassword(ctx context.Context, payload model.UpdatePasswordRequest) error {
+	user, err := s.GetUserDetailByEmail(ctx, payload.Email)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return model.ErrUnAuthorized
+		}
+		log.Printf("unexpected error auth.UpdatePassword: %v\n", err)
+		return err
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.OldPassword)); err != nil {
+		return model.ErrUnAuthorized
+	}
+
+	newPassword, err := bcrypt.GenerateFromPassword([]byte(payload.NewPassword), bcrypt.MinCost)
+	if err != nil {
+		log.Printf("unexpected error auth.UpdatePassword: %v\n", err)
+		return err
+	}
+
+	return s.authRepository.UpdatePassword(ctx, payload.Email, string(newPassword))
 }
