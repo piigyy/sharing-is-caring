@@ -13,8 +13,11 @@
 					<li class="nav-item">
 						<router-link class="nav-link" to="/terms-conditions">Terms and Condition</router-link>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item" v-if="!$store.state.isLogin">
 						<router-link class="nav-link" to="/signin">Sign-In</router-link>
+					</li>
+					<li class="nav-item" v-if="$store.state.isLogin">
+						<span class="nav-link">Sign-Out</span>
 					</li>
 				</ul>
 			</div>
