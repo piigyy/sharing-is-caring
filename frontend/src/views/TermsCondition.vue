@@ -2,7 +2,7 @@
   <div class="about mt-3">
     <div id="tnc-title">
       <h1 class="tc-header">Terms & Conditions</h1>
-      <p><i class="small-text">Updated at 2022-01-01</i></p>
+      <p><i class="small-text animate__animated animate__flash animate__repeat-1">Updated at 2022-01-01</i></p>
     </div>
     <div class="container p-3" style="color: #FFDD93">
       <div class="row">

@@ -9,7 +9,7 @@
     <div class="">
       <div class="">
         <div class="row gx-5">
-          <div class="col">
+          <div class="col animate__animated animate__backInLeft">
             <div class="card" style="width: 18rem;">
               <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png" class="card-img-top p-3 card-bg" alt="Spotify Logo">
               <div class="card-body card-bg">
@@ -28,7 +28,7 @@
               </ul>
             </div>
           </div>
-          <div class="col">
+          <div class="col animate__animated animate__backInRight">
             <div class="card" style="width: 18rem;">
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png" class="card-img-top p-3 card-bg" alt="Netflix Logo">
               <div class="card-body card-bg">
