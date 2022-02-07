@@ -38,13 +38,13 @@ func (r *authRepository) GetUserByEmail(ctx context.Context, email string) (user
 	log.Printf("authRepository.GetUserByEmail")
 	err = r.collection.FindOne(ctx, bson.M{"email": email}).Decode(&user)
 	if err != nil {
-		err = errors.New("internal server error")
 		log.Printf("error authRepository.GetUserByEmail: %v\n", err)
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			err = model.ErrUserNotFound
 			return
 		}
 
+		err = errors.New("internal server error")
 		return
 	}
 

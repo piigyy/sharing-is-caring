@@ -27,7 +27,7 @@ func (s *httpServer) Login(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := s.authService.Login(r.Context(), payload)
 	if err != nil {
-		if errors.Is(err, model.ErrUnAuthorized) {
+		if errors.Is(err, model.ErrUserNotFound) {
 			presenter.ErrResponse(w, http.StatusUnauthorized, model.ErrUnAuthorized)
 			return
 		}
