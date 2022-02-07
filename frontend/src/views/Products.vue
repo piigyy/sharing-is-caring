@@ -23,8 +23,8 @@
                 </section>
               </div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item option card-bg"><router-link class="nav-link card-bg" to="/host/spotify"><span class="action-order">Become a host</span></router-link></li>
-                <li class="list-group-item option card-bg"><router-link class="nav-link card-bg" to="/buy/spotify"><span class="action-order">Order</span></router-link></li>
+                <li class="list-group-item option card-bg" @click="clickedOrder('/host/spotify')"><span class="action-order">Become a host</span></li>
+                <li class="list-group-item option card-bg" @click="clickedOrder('/order/spotify')" ><span class="action-order">Order</span></li>
               </ul>
             </div>
           </div>
@@ -41,8 +41,8 @@
                 </section>
               </div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item option card-bg"><router-link class="nav-link card-bg" to="/host/netflix"><span class="action-order">Become a host</span></router-link></li>
-                <li class="list-group-item option card-bg"><router-link class="nav-link card-bg" to="/buy/netflix"><span class="action-order">Order</span></router-link></li>
+                <li class="list-group-item option card-bg" @click="clickedOrder('/host/netflix')"><span class="action-order">Become a host</span></li>
+                <li class="list-group-item option card-bg" @click="clickedOrder('/order/netflix')" ><span class="action-order">Order</span></li>
               </ul>
             </div>
           </div>
@@ -71,7 +71,16 @@
 
 <script>
 export default {
-
+  methods: {
+    clickedOrder(url) {
+      if (!this.$store.state.isLogin) {
+        this.$swal("Please Sign-In Before Ordering")
+        this.$router.push("/signin");
+      } else {
+        this.$router.push(url)
+      }
+    },
+  },
 }
 </script>
 
