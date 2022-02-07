@@ -41,7 +41,7 @@
       </div>
       <div class="row mt-2">
           <div class="col">
-              <a href="https://wa.me/6289658876167?text=I%20want%20to%20register%20an%20Sharing-is-Caring%20account" target="_blank" v-if="!isFetch" class="btn btn-outline-primary">Sign Up</a>
+            <button v-if="!isFetch" type="button" @click="signUp" class="btn btn-outline-primary">Sign Up</button>
           </div>
       </div>
     </form>
@@ -58,6 +58,16 @@ export default {
     };
   },
   methods: {
+    signUp() {
+      this.$swal.fire({
+        title: 'This Website Currently Is Use For Internal User',
+        icon: 'info',
+        html: `
+          If you still want to register, you could contact me on WhatsApp by clicking this link: <a href="https://wa.me/6289658876167?text=I%20want%20to%20register%20a%20Sharing-is-Caring%20account" target="_blank">Ask For An Account</a>
+        `,
+        showCloseButton: true,
+      })
+    },
     async signin() {
       this.isFetch = true;
       if (this.email === "" || this.password.length < 8) {
