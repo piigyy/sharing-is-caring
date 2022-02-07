@@ -4,7 +4,7 @@
       <h1 class="tc-header">Terms & Conditions</h1>
       <p><i class="small-text animate__animated animate__flash animate__repeat-1">Updated at 2022-01-01</i></p>
     </div>
-    <div class="container p-3" style="color: #FFDD93">
+    <div class="container p-3" style="color: white">
       <div class="row">
         <div class="col">
               <article>

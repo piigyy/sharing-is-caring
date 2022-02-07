@@ -24,7 +24,7 @@
               </div>
               <ul class="list-group list-group-flush" v-if="$store.state.isLogin">
                 <li class="list-group-item option card-bg" @click="clickedOrder('/host/spotify')"><span class="action-order">Become a host</span></li>
-                <li class="list-group-item option card-bg" @click="clickedOrder('/order/spotify')" ><span class="action-order">Order</span></li>
+                <li class="list-group-item option card-bg" @click="clickedOrder('/marketplace?product=spotify')" ><span class="action-order">Order</span></li>
               </ul>
               <ul class="list-group list-group-flush" v-if="!$store.state.isLogin">
                 <li class="list-group-item option card-bg" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span class="action-order">Become a host</span></li>
@@ -46,7 +46,7 @@
               </div>
               <ul class="list-group list-group-flush" v-if="$store.state.isLogin">
                 <li class="list-group-item option card-bg" @click="clickedOrder('/host/netflix')"><span class="action-order">Become a host</span></li>
-                <li class="list-group-item option card-bg" @click="clickedOrder('/order/netflix')" ><span class="action-order">Order</span></li>
+                <li class="list-group-item option card-bg" @click="clickedOrder('/marketplace?product=netflix')" ><span class="action-order">Order</span></li>
               </ul>
               <ul class="list-group list-group-flush" v-if="!$store.state.isLogin">
                 <li class="list-group-item option card-bg" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span class="action-order">Become a host</span></li>
