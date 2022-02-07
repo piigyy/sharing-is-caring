@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Navbar/>
-    <router-view/>
+    <div>
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -12,7 +14,10 @@ export default {
   name: 'Main',
   components: {
     Navbar,
-  }
+  },
+  created() {
+    this.$store.dispatch('checkLogin');
+  },
 }
 </script>
 

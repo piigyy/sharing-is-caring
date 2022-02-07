@@ -14,10 +14,13 @@
 						<router-link class="nav-link" to="/terms-conditions">Terms and Condition</router-link>
 					</li>
 					<li class="nav-item" v-if="!$store.state.isLogin">
-						<router-link class="nav-link" to="/signin">Sign-In</router-link>
+						<router-link class="nav-link btn btn-secondary" to="/signin">Sign-In</router-link>
 					</li>
 					<li class="nav-item" v-if="$store.state.isLogin">
-						<span class="nav-link">Sign-Out</span>
+						<span class="nav-link">{{ $store.state.email }}</span>
+					</li>
+					<li class="nav-item" v-if="$store.state.isLogin">
+						<span @click="doLogout" class="nav-link btn btn-secondary">Sign-Out</span>
 					</li>
 				</ul>
 			</div>
@@ -27,7 +30,13 @@
 
 <script>
 export default {
-
+	methods: {
+		doLogout() {
+			this.$store.dispatch('signOut');
+			this.$swal("Sign Out success!");
+			this.$router.push("/signin");
+		},
+	},
 }
 </script>
 
