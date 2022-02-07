@@ -3,7 +3,7 @@
     <div class="row" id="title">
       <h1>Sign In</h1>
     </div>
-    <form class="m-5">
+    <form class="">
       <div class="row">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="input-email">Email</span>
