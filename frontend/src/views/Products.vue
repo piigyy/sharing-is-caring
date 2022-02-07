@@ -46,7 +46,7 @@
               </div>
               <ul class="list-group list-group-flush" v-if="$store.state.isLogin">
                 <li class="list-group-item option card-bg" @click="clickedOrder('/host/netflix')"><span class="action-order">Become a host</span></li>
-                <li class="list-group-item option card-bg" @click="clickedOrder('/marketplace?product=netflix')" ><span class="action-order">Order</span></li>
+                <li class="list-group-item option card-bg" @click="clickedOrder('/marketplace?product=netflix')"><span class="action-order">Order</span></li>
               </ul>
               <ul class="list-group list-group-flush" v-if="!$store.state.isLogin">
                 <li class="list-group-item option card-bg" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span class="action-order">Become a host</span></li>
@@ -60,16 +60,16 @@
 
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Sign In</h5>
+        <div class="modal-content bg-dark">
+          <!-- <div class="modal-header">
+            <h5 class="modal-title" style="color: white" id="staticBackdropLabel">Sign In</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
+          </div> -->
           <div class="modal-body">
             <LoginForm/>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" id="close-modal-login" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
@@ -86,12 +86,8 @@ export default {
   },
   methods: {
     clickedOrder(url) {
-      if (!this.$store.state.isLogin) {
-        this.$swal("Please Sign-In Before Ordering")
-        this.$router.push("/signin");
-      } else {
-        this.$router.push(url)
-      }
+      document.getElementById("close-modal-login").click();
+      this.$router.push(url)
     },
   },
 }

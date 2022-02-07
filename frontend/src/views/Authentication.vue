@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LoginForm/>
+    <LoginForm class="form"/>
   </div>
 </template>
 
@@ -19,4 +19,9 @@ export default {
 </script>
 
 <style scoped>
+  @media only screen and (min-width: 768px) {
+    .form {
+      max-width: 50%;
+    }
+  }
 </style>

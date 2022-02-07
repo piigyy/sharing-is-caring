@@ -5,7 +5,7 @@
     </div>
     <form class="">
       <div class="row">
-        <div class="input-group input-group-sm mb-3">
+        <div class="input-group input-group-lg p-3">
           <span class="input-group-text" id="input-email">Email</span>
           <input
             required
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-group input-group-sm mb-3">
+        <div class="input-group input-group-lg p-3">
           <span class="input-group-text" id="input-password">Password</span>
           <input
             required
@@ -30,19 +30,17 @@
           >
         </div>
       </div>
-      <div class="row">
-        <div class="col" v-if="!isFetch">
-          <button v-if="!isFetch" type="submit" @click="signin" class="btn btn-secondary">Sign-In</button>
+      <div class="row item-align-center txt-center text-center mt-3">
+        <div class="col">
+          <button v-if="!isFetch" type="submit" @click="signin" class="btn btn-primary">Sign-In</button>
           <button v-else class="btn btn-primary" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Wait...
           </button>
         </div>
       </div>
-      <div class="row mt-2">
-          <div class="col">
-            <button v-if="!isFetch" type="button" @click="signUp" class="btn btn-outline-primary">Sign Up</button>
-          </div>
+      <div class="row item-align-center txt-center text-center mt-2" style="color: white">
+        <p><i>Don't have any account yet?</i> <a href="#" @click="signUp">Register Now</a> </p>
       </div>
     </form>
   </div>
@@ -60,10 +58,11 @@ export default {
   methods: {
     signUp() {
       this.$swal.fire({
-        title: 'This Website Currently Is Use For Internal User',
+        title: 'This Website Currently Is Use Only For Internal User',
         icon: 'info',
         html: `
-          If you still want to register, you could contact me on WhatsApp by clicking this link: <a href="https://wa.me/6289658876167?text=I%20want%20to%20register%20a%20Sharing-is-Caring%20account" target="_blank">Ask For An Account</a>
+          If you still want to register, you could contact me on WhatsApp by clicking this link: <a href="https://wa.me/6289658876167?text=I%20want%20to%20register%20a%20Sharing-is-Caring%20account" target="_blank">Ask For An Account</a> <br/><br/>
+          <i>By registering or/and request for an account you agree to our <a href="/terms-conditions">terms and conditions</a></i>
         `,
         showCloseButton: true,
       })
@@ -85,7 +84,7 @@ export default {
           }, 500);
           this.$store.dispatch('checkLogin');
           this.$swal("Sign-In Success!");
-          this.$router.push("/");
+          this.$router.push("/products");
 
         } catch (err) {
           if (err.response) {

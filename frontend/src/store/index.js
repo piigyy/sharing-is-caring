@@ -19,6 +19,11 @@ export default new Vuex.Store({
   },
   actions: {
     checkLogin({ commit }) {
+      const loginModalCloseButton = document.getElementById("close-modal-login");
+      if (loginModalCloseButton) {
+        loginModalCloseButton.click();
+      }
+
       console.log("checking login...")
       if (localStorage.getItem("user")) {
         console.log("login info found!")
