@@ -31,15 +31,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4">
-          <button v-if="!isFetch" type="button" @click="signin" class="btn btn-secondary">Sign-In</button>
+        <div class="col" v-if="!isFetch">
+          <button v-if="!isFetch" type="submit" @click="signin" class="btn btn-secondary">Sign-In</button>
           <button v-else class="btn btn-primary" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Wait...
           </button>
         </div>
-        <div class="col-4"></div>
       </div>
     </form>
   </div>
