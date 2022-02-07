@@ -39,6 +39,11 @@
           </button>
         </div>
       </div>
+      <div class="row mt-2">
+          <div class="col">
+              <a href="https://wa.me/6289658876167?text=I%20want%20to%20register%20an%20Sharing-is-Caring%20account" target="_blank" v-if="!isFetch" class="btn btn-outline-primary">Sign Up</a>
+          </div>
+      </div>
     </form>
   </div>
 </template>
