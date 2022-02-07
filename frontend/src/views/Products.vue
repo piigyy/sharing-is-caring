@@ -7,6 +7,25 @@
     </div>
 
     <div class="">
+      <div class="modal fade modal-dialog modal-dialog-centered" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Sign In</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <LoginForm/>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="">
       <div class="">
         <div class="row gx-5">
           <div class="col animate__animated animate__backInLeft">
@@ -22,9 +41,13 @@
                   </ul>
                 </section>
               </div>
-              <ul class="list-group list-group-flush">
+              <ul class="list-group list-group-flush" v-if="$store.state.isLogin">
                 <li class="list-group-item option card-bg" @click="clickedOrder('/host/spotify')"><span class="action-order">Become a host</span></li>
                 <li class="list-group-item option card-bg" @click="clickedOrder('/order/spotify')" ><span class="action-order">Order</span></li>
+              </ul>
+              <ul class="list-group list-group-flush" v-if="!$store.state.isLogin">
+                <li class="list-group-item option card-bg" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span class="action-order">Become a host</span></li>
+                <li class="list-group-item option card-bg" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span class="action-order">Order</span></li>
               </ul>
             </div>
           </div>
@@ -40,29 +63,16 @@
                   </ul>
                 </section>
               </div>
-              <ul class="list-group list-group-flush">
+              <ul class="list-group list-group-flush" v-if="$store.state.isLogin">
                 <li class="list-group-item option card-bg" @click="clickedOrder('/host/netflix')"><span class="action-order">Become a host</span></li>
                 <li class="list-group-item option card-bg" @click="clickedOrder('/order/netflix')" ><span class="action-order">Order</span></li>
               </ul>
-            </div>
-          </div>
-          <!-- <div class="col">
-            <div class="card" style="width: 18rem;">
-              <img src="https://logos-world.net/wp-content/uploads/2020/04/Twitter-Logo-2010-2012.png" class="card-img-top p-3 card-bg" alt="Twitter Logo">
-              <div class="card-body card-bg">
-                <h5 class="card-title product-title">Twitter Private Account</h5>
-                <section class="card-text">
-                  <ul>
-                    <li><i>based on host offers</i></li>
-                  </ul>
-                </section>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item option card-bg"><router-link class="nav-link card-bg" to="/host/twitter"><span class="action-order">Become a host</span></router-link></li>
-                <li class="list-group-item option card-bg"><router-link class="nav-link card-bg" to="/buy/twitter"><span class="action-order">Order</span></router-link></li>
+              <ul class="list-group list-group-flush" v-if="!$store.state.isLogin">
+                <li class="list-group-item option card-bg" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span class="action-order">Become a host</span></li>
+                <li class="list-group-item option card-bg" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span class="action-order">Order</span></li>
               </ul>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -70,7 +80,12 @@
 </template>
 
 <script>
+import LoginForm from '@/components/LoginForm.vue';
+
 export default {
+  components: {
+    LoginForm,
+  },
   methods: {
     clickedOrder(url) {
       if (!this.$store.state.isLogin) {
