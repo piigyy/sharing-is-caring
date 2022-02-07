@@ -7,25 +7,6 @@
     </div>
 
     <div class="">
-      <div class="modal fade modal-dialog modal-dialog-centered" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Sign In</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <LoginForm/>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="">
       <div class="">
         <div class="row gx-5">
           <div class="col animate__animated animate__backInLeft">
@@ -72,6 +53,23 @@
                 <li class="list-group-item option card-bg" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span class="action-order">Order</span></li>
               </ul>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Sign In</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <LoginForm/>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
