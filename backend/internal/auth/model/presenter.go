@@ -11,6 +11,7 @@ type LoginResponse struct {
 	ID                   string    `json:"id"`
 	AccessToken          string    `json:"accessToken"`
 	Email                string    `json:"email"`
+	Name                 string    `json:"name"`
 	AccessTokenExpiredAt time.Time `json:"accessTokenExpiredAt"`
 }
 

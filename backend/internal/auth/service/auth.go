@@ -52,6 +52,7 @@ func (s *auth) Login(ctx context.Context, payload model.LoginRequest) (response 
 		AccessToken:          accessToken,
 		AccessTokenExpiredAt: time.Now().Add(2 * time.Hour),
 		Email:                payload.Email,
+		Name:                 user.Name,
 	}, nil
 }
 
