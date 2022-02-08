@@ -34,6 +34,14 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "signin" */ '../views/Authentication.vue')
   },
+  {
+    path: '/me/:id',
+    name: 'Profile',
+    // route level code-splitting
+    // this generates a separate chunk (profile.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+  },
 ]
 
 const router = new VueRouter({

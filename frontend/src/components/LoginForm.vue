@@ -91,7 +91,7 @@ export default {
             if (err.response.status == 401) {
               this.$swal(
                 "Bad Request",
-                "Perhaps You Entered Wrong Email or/and Password Combination",
+                "Perhaps You Entered The Wrong Email or/and Password Combination",
                 "error"
               );
             } else {
@@ -110,6 +110,7 @@ export default {
           }
           setTimeout(() => {
             this.isFetch = false;
+            this.password = '';
           }, 500);
         }
       }

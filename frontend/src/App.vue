@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Navbar/>
-    <div>
+    <Navbar class="navbar"/>
+    <div id="main">
       <router-view/>
     </div>
   </div>
@@ -31,4 +31,18 @@ export default {
   section {
     color: white;
   }
+
+  /* .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  .navbar + #main {
+    padding-top: 60px;
+  }
+
+  #main {
+    padding: 16px;
+  } */
 </style>

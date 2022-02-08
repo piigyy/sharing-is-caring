@@ -5,16 +5,24 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    userID: '',
     isLogin: false,
     isLoading: true,
-    email: "logged user",
+    email: "logged@user.com",
+    name: "logged user",
   },
   mutations: {
     SET_ISLOGIN(state, payload) {
-      state.isLogin = payload
+      state.isLogin = payload;
     },
     SET_EMAIL(state, payload) {
-      state.email = payload
+      state.email = payload;
+    },
+    SET_NAME(state, payload) {
+      state.name = payload;
+    },
+    SET_USERID(state, payload) {
+      state.userID = payload;
     },
   },
   actions: {
@@ -28,8 +36,10 @@ export default new Vuex.Store({
       if (localStorage.getItem("user")) {
         console.log("login info found!")
         commit("SET_ISLOGIN", true);
-        const { email } = JSON.parse(localStorage.getItem("user"))
+        const { email, name, id } = JSON.parse(localStorage.getItem("user"))
         commit("SET_EMAIL", email);
+        commit("SET_NAME", name);
+        commit("SET_USERID", id);
       } else {
         console.log("login info not found!")
         localStorage.removeItem("user");

@@ -13,14 +13,17 @@
 					<li class="nav-item">
 						<router-link class="nav-link" to="/terms-conditions">Terms and Condition</router-link>
 					</li>
+					<li class="nav-item dropdown" v-if="$store.state.isLogin">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<strong>{{ $store.state.name }}</strong>
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<li><router-link class="dropdown-item" :to="'/me/' + $store.state.userID">Profile</router-link></li>
+							<li><a class="dropdown-item"  @click="doLogout" href="#">Sign-Out</a></li>
+						</ul>
+					</li>
 					<li class="nav-item" v-if="!$store.state.isLogin">
 						<router-link class="nav-link btn btn-secondary" to="/signin">Sign-In</router-link>
-					</li>
-					<li class="nav-item" v-if="$store.state.isLogin">
-						<span class="nav-link">{{ $store.state.email }}</span>
-					</li>
-					<li class="nav-item" v-if="$store.state.isLogin">
-						<span @click="doLogout" class="nav-link btn btn-secondary">Sign-Out</span>
 					</li>
 				</ul>
 			</div>
@@ -32,9 +35,18 @@
 export default {
 	methods: {
 		doLogout() {
-			this.$store.dispatch('signOut');
-			this.$swal("Sign Out success!");
-			this.$router.push("/signin");
+			this.$swal.fire({
+				title: 'Do you want to sign-ot?',
+				showCancelButton: true,
+				confirmButtonText: 'Sign-Out',
+			}).then((result) => {
+				/* Read more about isConfirmed, isDenied below */
+				if (result.isConfirmed) {
+					this.$store.dispatch('signOut');
+					this.$swal("Sign Out success!");
+					this.$router.push("/signin");
+				}
+			})
 		},
 	},
 }
@@ -45,5 +57,9 @@ export default {
 		font-family: 'Neonderthaw', cursive;
 		font-weight: bold;
 		font-size: 1.5em;
+	}
+
+	.name, .sign-out {
+		cursor: pointer;
 	}
 </style>
