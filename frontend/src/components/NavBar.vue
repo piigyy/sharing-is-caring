@@ -11,6 +11,9 @@
 						<router-link class="nav-link" to="/products">Product and Pricing</router-link>
 					</li>
 					<li class="nav-item">
+						<router-link class="nav-link" to="/marketplace">Marketplace</router-link>
+					</li>
+					<li class="nav-item">
 						<router-link class="nav-link" to="/terms-conditions">Terms and Condition</router-link>
 					</li>
 					<li class="nav-item dropdown" v-if="$store.state.isLogin">

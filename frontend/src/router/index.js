@@ -44,14 +44,14 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
   },
-  // {
-  //   path: '/marketplace',
-  //   name: 'Marketplace',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (marketplace.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "marketplace" */ '../views/Marketplace.vue')
-  // },
+  {
+    path: '/marketplace',
+    name: 'Marketplace',
+    // route level code-splitting
+    // this generates a separate chunk (marketplace.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "marketplace" */ '../views/Marketplace.vue')
+  },
 ]
 
 const router = new VueRouter({
