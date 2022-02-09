@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/piigyy/sharing-is-caring/config"
+	"github.com/piigyy/sharing-is-caring/internal/auth/model"
 	"github.com/piigyy/sharing-is-caring/internal/auth/repository"
 	authServer "github.com/piigyy/sharing-is-caring/internal/auth/server"
 	"github.com/piigyy/sharing-is-caring/internal/auth/service"
@@ -27,9 +28,10 @@ func main() {
 		}
 	}()
 
-	cfg, cfgErr := config.ReadConfig()
-	if cfgErr != nil {
-		panic(cfgErr)
+	var cfg model.Config
+	err := config.ReadConfigFromFile("auth", &cfg)
+	if err != nil {
+		panic(err)
 	}
 
 	mongoURI := fmt.Sprintf(cfg.Mongo.URI, cfg.Mongo.DB.Auth)
@@ -45,7 +47,7 @@ func main() {
 	tokenService := token.NewJWTToken(cfg.JWTSecret)
 	authService := service.NewAuthService(authRepository, tokenService)
 	middleware := middleware.NewMiddleware(tokenService)
-	authServer := authServer.NewHTTPServer(cfg, authService, middleware)
+	authServer := authServer.NewHTTPServer(&cfg, authService, middleware)
 
 	srv, srvErr := server.New(cfg.Port.Auth)
 	if srvErr != nil {

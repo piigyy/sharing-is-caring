@@ -9,7 +9,6 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/piigyy/sharing-is-caring/config"
 	"github.com/piigyy/sharing-is-caring/internal/auth/model"
 	"github.com/piigyy/sharing-is-caring/pkg/middleware"
 	"github.com/piigyy/sharing-is-caring/pkg/server"
@@ -17,13 +16,13 @@ import (
 )
 
 type httpServer struct {
-	cfg         *config.Config
+	cfg         *model.Config
 	authService model.ServiceReaderWriter
 	middleware  middleware.Auth
 }
 
 func NewHTTPServer(
-	cfg *config.Config,
+	cfg *model.Config,
 	authService model.ServiceReaderWriter,
 	middleware middleware.Auth,
 ) *httpServer {

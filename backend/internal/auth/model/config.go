@@ -1,4 +1,4 @@
-package config
+package model
 
 type Config struct {
 	Production bool   `mapstructure:"production"`

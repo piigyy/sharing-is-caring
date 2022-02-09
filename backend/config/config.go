@@ -8,13 +8,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-func ReadConfig() (*Config, error) {
-	var cfg Config
-
+func ReadConfigFromFile(serviceName string, config interface{}) error {
 	mode := flag.String("mode", "local", "to set environment mode")
 	flag.Parse()
 
-	configFileName := fmt.Sprintf("config.%s.yaml", *mode)
+	configFileName := fmt.Sprintf("config.auth.%s.yaml", *mode)
 	log.Printf("reading config: %s\n", configFileName)
 
 	viper.SetConfigType("yaml")
@@ -24,17 +22,17 @@ func ReadConfig() (*Config, error) {
 	readCfgErr := viper.ReadInConfig()
 	if readCfgErr != nil {
 		log.Printf("error viper.ReadInConfig: %v\n", readCfgErr)
-		return nil, readCfgErr
+		return readCfgErr
 	}
 
-	unmarshallErr := viper.Unmarshal(&cfg)
+	unmarshallErr := viper.Unmarshal(&config)
 
 	if unmarshallErr != nil {
 		log.Printf("error viper.Unmarshal: %v\n", readCfgErr)
-		return nil, unmarshallErr
+		return unmarshallErr
 	}
 
 	log.Printf("success reading config: %s\n", configFileName)
-	return &cfg, nil
+	return nil
 
 }
