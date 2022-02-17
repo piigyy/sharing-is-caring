@@ -36,6 +36,11 @@ func (s *payment) CreatePayment(ctx context.Context, request *pb.PaymentRequest)
 	orderID, paymentRequest := model.MapPaymentRequestProto(request)
 	log.Printf("new payment with order id: %sv", orderID)
 
+	if err := paymentRequest.Validate(); err != nil {
+		log.Printf("error paymentRequest.Validate(): %v", err)
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
 	paymentResponse, err := s.requestToMidtrans(paymentRequest)
 	if err != nil {
 		log.Printf("failed sending request to midtrans: %v", err)
