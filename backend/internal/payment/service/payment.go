@@ -34,7 +34,7 @@ func NewPayment(paymentURL, paymentKey string) *payment {
 
 func (s *payment) CreatePayment(ctx context.Context, request *pb.PaymentRequest) (*pb.PaymentResponse, error) {
 	orderID, paymentRequest := model.MapPaymentRequestProto(request)
-	log.Printf("new payment with order id: %s, amount: %v", orderID, paymentRequest.TransactionDetails.GrossAmount)
+	log.Printf("new payment with order id: %sv", orderID)
 
 	paymentResponse, err := s.requestToMidtrans(paymentRequest)
 	if err != nil {
