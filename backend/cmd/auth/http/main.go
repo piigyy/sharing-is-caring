@@ -49,12 +49,12 @@ func main() {
 	middleware := middleware.NewMiddleware(tokenService)
 	authServer := authServer.NewHTTPServer(&cfg, authService, middleware)
 
-	srv, srvErr := server.New(cfg.Port.Auth)
+	srv, srvErr := server.New(cfg.Port)
 	if srvErr != nil {
 		panic(srvErr)
 	}
 
-	log.Printf("server is listening on %s\n", cfg.Port.Auth)
+	log.Printf("server is listening on %s\n", cfg.Port)
 	if err := srv.ServeHTTPHandler(ctx, authServer.CORS(authServer.HandlerLogging(authServer.Routes(ctx)))); err != nil {
 		panic(err)
 	}

@@ -33,12 +33,11 @@ func main() {
 	GRPCSrv := grpc.NewServer()
 	proto.RegisterPaymentServiceServer(GRPCSrv, paymentService)
 
-	log.Printf("config: %+v\n", cfg)
 	srv, err := server.New(cfg.Port)
 	if err != nil {
 		log.Panicf("err server.New: %v\n", err)
 	}
 
-	log.Println("starting payment service")
+	log.Printf("starting payment service on port %s", cfg.Port)
 	srv.ServeGRPC(ctx, GRPCSrv)
 }

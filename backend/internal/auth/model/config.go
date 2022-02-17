@@ -2,13 +2,9 @@ package model
 
 type Config struct {
 	Production bool   `mapstructure:"production"`
-	Port       Port   `mapstructure:"port"`
+	Port       string `mapstructure:"port"`
 	Mongo      Mongo  `mapstructure:"mongo"`
 	JWTSecret  string `mapstructure:"jwtSsecret"`
-}
-
-type Port struct {
-	Auth string `mapstructure:"auth"`
 }
 
 type Mongo struct {
