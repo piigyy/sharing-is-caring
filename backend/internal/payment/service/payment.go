@@ -12,6 +12,7 @@ import (
 
 	"github.com/piigyy/sharing-is-caring/internal/payment/model"
 	pb "github.com/piigyy/sharing-is-caring/internal/payment/proto"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -20,25 +21,38 @@ type payment struct {
 	http       *http.Client
 	paymentURL string
 	paymentKey string
+	repository model.PaymentReaderWriterRepository
 }
 
-func NewPayment(paymentURL, paymentKey string) *payment {
+func NewPayment(
+	paymentURL, paymentKey string,
+	repository model.PaymentReaderWriterRepository,
+) *payment {
 	key := fmt.Sprintf("%s:", paymentKey)
 	encodedKey := base64.StdEncoding.EncodeToString([]byte(key))
 	return &payment{
 		http:       &http.Client{},
 		paymentURL: paymentURL,
 		paymentKey: encodedKey,
+		repository: repository,
 	}
 }
 
 func (s *payment) CreatePayment(ctx context.Context, request *pb.PaymentRequest) (*pb.PaymentResponse, error) {
-	orderID, paymentRequest := model.MapPaymentRequestProto(request)
+	orderID := primitive.NewObjectID()
+	paymentRequest := model.MapPaymentRequestProto(request, orderID.Hex())
+	paymentRequest.ID = orderID
 	log.Printf("new payment with order id: %sv", orderID)
 
 	if err := paymentRequest.Validate(); err != nil {
 		log.Printf("error paymentRequest.Validate(): %v", err)
 		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	err := s.repository.SavePayment(ctx, paymentRequest)
+	if err != nil {
+		log.Printf("error s.repository.SavePayment: %v", err)
+		return nil, status.Errorf(codes.Internal, "error s.repository.SavePayment: %v", err)
 	}
 
 	paymentResponse, err := s.requestToMidtrans(paymentRequest)
@@ -51,7 +65,7 @@ func (s *payment) CreatePayment(ctx context.Context, request *pb.PaymentRequest)
 		Success:     true,
 		Token:       paymentResponse.Token,
 		RedirectUrl: paymentResponse.RedirectURL,
-		OrderId:     orderID,
+		OrderId:     orderID.Hex(),
 	}, nil
 }
 

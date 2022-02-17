@@ -7,8 +7,8 @@ import (
 	"io"
 	"net/mail"
 
-	"github.com/google/uuid"
 	pb "github.com/piigyy/sharing-is-caring/internal/payment/proto"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Validator interface {
@@ -31,8 +31,8 @@ type PaymentResponse struct {
 }
 
 type Transaction struct {
-	OrderID     string  `json:"order_id"`
-	GrossAmount float32 `json:"gross_amount"`
+	OrderID     string  `json:"order_id" bson:"orderID"`
+	GrossAmount float32 `json:"gross_amount" bson:"grossAmount"`
 }
 
 func (t *Transaction) Validate() error {
@@ -43,18 +43,18 @@ func (t *Transaction) Validate() error {
 }
 
 type Item struct {
-	ID       string  `json:"id"`
-	Name     string  `json:"name"`
-	Price    float32 `json:"price"`
-	Quantity int     `json:"quantity"`
+	ID       string  `json:"id" bson:"id"`
+	Name     string  `json:"name" bson:"name"`
+	Price    float32 `json:"price" bson:"price"`
+	Quantity int     `json:"quantity" bson:"quantity"`
 }
 
 type Customer struct {
-	ID        string `json:"id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
-	Phone     string `json:"phone"`
+	ID        string `json:"id" bson:"id"`
+	FirstName string `json:"first_name" bson:"firstName"`
+	LastName  string `json:"last_name" bson:"lastName"`
+	Email     string `json:"email" bson:"email"`
+	Phone     string `json:"phone" bson:"phone"`
 }
 
 func (c *Customer) Validate() error {
@@ -71,10 +71,16 @@ func (c *Customer) Validate() error {
 }
 
 type PaymentRequest struct {
-	PaymentType        string      `json:"payment_type"`
-	TransactionDetails Transaction `json:"transaction_details"`
-	ItemDetails        []Item      `json:"item_details"`
-	CustomerDetails    Customer    `json:"customer_details"`
+	ID                 primitive.ObjectID `bson:"_id,omitempty"`
+	Status             string             `bson:"status"`
+	PaymentType        string             `json:"payment_type" bson:"paymentType"`
+	TransactionDetails Transaction        `json:"transaction_details" bson:"transactionDetails"`
+	ItemDetails        []Item             `json:"item_details" bson:"itemDetails"`
+	CustomerDetails    Customer           `json:"customer_details" bson:"customerDetails"`
+}
+
+func (pr *PaymentRequest) UpdateOrderID(orderID string) {
+	pr.TransactionDetails.OrderID = orderID
 }
 
 func (pr *PaymentRequest) Validate() error {
@@ -98,9 +104,9 @@ func (pr *PaymentRequest) PaymentToIOReader() (io.Reader, error) {
 	return &buff, nil
 }
 
-func MapPaymentRequestProto(request *pb.PaymentRequest) (string, PaymentRequest) {
-	orderID := uuid.New().String()
-	return orderID, PaymentRequest{
+func MapPaymentRequestProto(request *pb.PaymentRequest, orderID string) PaymentRequest {
+	return PaymentRequest{
+		Status:      PAYMENT_PENDING,
 		PaymentType: "qris",
 		TransactionDetails: Transaction{
 			OrderID:     orderID,
