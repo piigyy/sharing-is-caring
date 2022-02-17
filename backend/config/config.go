@@ -12,7 +12,7 @@ func ReadConfigFromFile(serviceName string, config interface{}) error {
 	mode := flag.String("mode", "local", "to set environment mode")
 	flag.Parse()
 
-	configFileName := fmt.Sprintf("config.auth.%s.yaml", *mode)
+	configFileName := fmt.Sprintf("config.%s.%s.yaml", serviceName, *mode)
 	log.Printf("reading config: %s\n", configFileName)
 
 	viper.SetConfigType("yaml")

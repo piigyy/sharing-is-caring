@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+// import "google/protobuf/empty.proto";
+
+package payment;
+
+option go_package = "internal/payment/proto";
+
+message Customer {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email = 4;
+    string phone = 5;
+}
+
+message Item {
+    string id = 1;
+    string name = 2;
+    float price = 3;
+    int32 quantity = 4;
+}
+
+message PaymentRequest {
+    float gross_amount = 1;
+    Item item = 2;
+    Customer customer = 3;
+}
+
+message PaymentResponse {
+    bool success = 1;
+    string order_id = 2;
+    string token = 3;
+    string redirect_url = 4;
+}
+
+service PaymentService {
+    rpc CreatePayment(PaymentRequest) returns (PaymentResponse) {};
+}
+
