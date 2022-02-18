@@ -2,9 +2,9 @@ package repository
 
 import (
 	"context"
-	"log"
 
 	"github.com/piigyy/sharing-is-caring/internal/payment/model"
+	"github.com/piigyy/sharing-is-caring/pkg/logger"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -21,10 +21,12 @@ func NewPaymentRepository(
 }
 
 func (r *payment) SavePayment(ctx context.Context, payment model.PaymentRequest) (err error) {
-	log.Printf("saving payment %s", payment.TransactionDetails.OrderID)
+	const caller = "repository.payment.SavePayment"
+	logger.Info(ctx, caller, "saving payment %s", payment.TransactionDetails.OrderID)
+
 	_, err = r.collection.InsertOne(ctx, &payment)
 	if err != nil {
-		log.Printf("error SavePayment.r.collection.InsertOne: %v", err)
+		logger.Error(ctx, caller, "SavePayment.r.collection.InsertOne return an error: %v", err)
 		return
 	}
 
