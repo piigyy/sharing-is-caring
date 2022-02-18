@@ -1,19 +1,21 @@
 package config
 
 import (
+	"context"
 	"flag"
 	"fmt"
-	"log"
 
+	"github.com/piigyy/sharing-is-caring/pkg/logger"
 	"github.com/spf13/viper"
 )
 
 func ReadConfigFromFile(serviceName string, config interface{}) error {
+	const caller = "config.ReadConfigFromFile"
 	mode := flag.String("mode", "local", "to set environment mode")
 	flag.Parse()
 
 	configFileName := fmt.Sprintf("config.%s.%s.yaml", serviceName, *mode)
-	log.Printf("reading config: %s\n", configFileName)
+	logger.Info(context.TODO(), caller, "reading config: %s", configFileName)
 
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("../")
@@ -21,18 +23,18 @@ func ReadConfigFromFile(serviceName string, config interface{}) error {
 
 	readCfgErr := viper.ReadInConfig()
 	if readCfgErr != nil {
-		log.Printf("error viper.ReadInConfig: %v\n", readCfgErr)
+		logger.Error(context.TODO(), caller, "viper.ReadInConfig() return an error: %v", readCfgErr)
 		return readCfgErr
 	}
 
 	unmarshallErr := viper.Unmarshal(&config)
 
 	if unmarshallErr != nil {
-		log.Printf("error viper.Unmarshal: %v\n", readCfgErr)
+		logger.Error(context.TODO(), caller, "viper.Unmarshal return an error: %v", unmarshallErr)
 		return unmarshallErr
 	}
 
-	log.Printf("success reading config: %s\n", configFileName)
+	logger.Info(context.TODO(), caller, "success reading config %s", configFileName)
 	return nil
 
 }

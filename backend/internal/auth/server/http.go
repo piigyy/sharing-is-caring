@@ -46,6 +46,8 @@ func (s *httpServer) Routes(ctx context.Context) http.Handler {
 	mux.HandleFunc("/api/v1/users", server.Adapt(http.HandlerFunc(s.GetUserDetail), s.middleware.Authotization()).ServeHTTP).Methods(http.MethodGet)
 	mux.HandleFunc("/api/v1/users", server.Adapt(http.HandlerFunc(s.UpdatePasword), s.middleware.Authotization()).ServeHTTP).Methods(http.MethodPatch)
 
+	mux.HandleFunc("/api/v1/webhooks/midtrans", s.MidtransWebHookHandler)
+
 	return mux
 }
 

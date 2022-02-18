@@ -1,7 +1,7 @@
 .PHONY: proto
 
 proto:
-	protoc internal/payment/proto/payment.proto --go_out=plugins=grpc:.
+	protoc proto/payment.proto --go_out=plugins=grpc:.
 
 run-auth:
 	go run cmd/auth/http/main.go

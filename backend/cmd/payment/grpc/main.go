@@ -13,11 +13,14 @@ import (
 	"github.com/piigyy/sharing-is-caring/internal/payment/repository"
 	paymentService "github.com/piigyy/sharing-is-caring/internal/payment/service"
 	"github.com/piigyy/sharing-is-caring/pkg/database"
+	"github.com/piigyy/sharing-is-caring/pkg/logger"
 	"github.com/piigyy/sharing-is-caring/pkg/server"
+	"go.mongodb.org/mongo-driver/mongo"
 	"google.golang.org/grpc"
 )
 
 func main() {
+	const caller = "main"
 	ctx, done := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer func() {
 		done()
@@ -25,35 +28,46 @@ func main() {
 			log.Fatalf("application panic: %v", r)
 		}
 	}()
-	log.Println("statring payment service")
+	logger.Info(ctx, caller, "starting payment service")
 
 	var cfg model.Config
 	if err := config.ReadConfigFromFile("payment", &cfg); err != nil {
-		log.Panicf("err config.ReadConfigFromFile: %v\n", err)
+		logger.Fatal(ctx, caller, "config.ReadConfigFromFile return an error: %v", err)
 	}
 
 	mongoURI := fmt.Sprintf(cfg.Database.URI, cfg.Database.DB)
 	mongoClient, err := database.NewMongoClient(ctx, mongoURI)
 	if err != nil {
-		panic(err)
+		logger.Fatal(ctx, caller, "database.NewMongoClient return an error: %v", err)
 	}
 
 	mongoDB := mongoClient.Database(cfg.Database.DB)
-	paymentRepository := repository.NewPaymentRepository(mongoDB)
+	err = initService(ctx, cfg, mongoDB)
+	done()
 
+	if err != nil {
+		logger.Fatal(ctx, caller, "initService return an error: %v", err)
+	}
+
+	logger.Info(ctx, caller, "payment server successfully shutdown")
+}
+
+func initService(ctx context.Context, cfg model.Config, mongoDB *mongo.Database) error {
+	paymentRepository := repository.NewPaymentRepository(mongoDB)
 	paymentService := paymentService.NewPayment(
 		cfg.Payment.URL,
 		cfg.Payment.Key,
 		paymentRepository,
 	)
-	GRPCSrv := grpc.NewServer()
-	proto.RegisterPaymentServiceServer(GRPCSrv, paymentService)
+
+	gRPC := grpc.NewServer()
+	proto.RegisterPaymentServiceServer(gRPC, paymentService)
 
 	srv, err := server.New(cfg.Port)
 	if err != nil {
-		log.Panicf("err server.New: %v\n", err)
+		return fmt.Errorf("failed to create new server handler: %w", err)
 	}
 
 	log.Printf("starting payment service on port %s", cfg.Port)
-	srv.ServeGRPC(ctx, GRPCSrv)
+	return srv.ServeGRPC(ctx, gRPC)
 }
