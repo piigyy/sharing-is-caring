@@ -10,6 +10,14 @@ type RequestID string
 
 var RequestIDKey RequestID = "request-id"
 
+func init() {
+	logrus.SetFormatter(&logrus.TextFormatter{
+		DisableColors: true,
+		FullTimestamp: true,
+		ForceQuote:    true,
+	})
+}
+
 func Info(ctx context.Context, caller, format string, values ...interface{}) {
 	requestID := "-"
 	ctxVal := ctx.Value(RequestIDKey)
