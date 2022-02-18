@@ -5,7 +5,7 @@ import (
 	"errors"
 	"log"
 
-	"github.com/piigyy/sharing-is-caring/internal/auth/model"
+	"github.com/piigyy/sharing-is-caring/internal/gateway/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

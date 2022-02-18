@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/piigyy/sharing-is-caring/internal/auth/model"
+	"github.com/piigyy/sharing-is-caring/internal/gateway/model"
 	"github.com/piigyy/sharing-is-caring/pkg/token"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"

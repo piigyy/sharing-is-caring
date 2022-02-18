@@ -4,6 +4,8 @@ type Config struct {
 	Port     string   `mapstructure:"port"`
 	Payment  Payment  `mapstructure:"payment"`
 	Database Database `mapstructure:"database"`
+	Certfile string   `mapstructure:"certfile"`
+	Keyfile  string   `mapstructure:"keyfile"`
 }
 
 type Payment struct {

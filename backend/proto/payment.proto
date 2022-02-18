@@ -1,10 +1,8 @@
 syntax = "proto3";
 
-// import "google/protobuf/empty.proto";
-
 package payment;
 
-option go_package = "internal/payment/proto";
+option go_package = "/proto";
 
 message Customer {
     string id = 1;

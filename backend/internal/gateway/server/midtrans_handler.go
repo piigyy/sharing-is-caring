@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/piigyy/sharing-is-caring/internal/auth/model"
+	"github.com/piigyy/sharing-is-caring/internal/gateway/model"
 	"github.com/piigyy/sharing-is-caring/pkg/presenter"
 )
 

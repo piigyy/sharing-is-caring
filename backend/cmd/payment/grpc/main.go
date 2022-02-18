@@ -17,6 +17,7 @@ import (
 	"github.com/piigyy/sharing-is-caring/pkg/server"
 	"go.mongodb.org/mongo-driver/mongo"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 func main() {
@@ -42,6 +43,8 @@ func main() {
 	}
 
 	mongoDB := mongoClient.Database(cfg.Database.DB)
+
+	logger.Info(ctx, caller, "starting payment service on port %s", cfg.Port)
 	err = initService(ctx, cfg, mongoDB)
 	done()
 
@@ -60,7 +63,12 @@ func initService(ctx context.Context, cfg model.Config, mongoDB *mongo.Database)
 		paymentRepository,
 	)
 
-	gRPC := grpc.NewServer()
+	creds, credsErr := credentials.NewServerTLSFromFile(cfg.Certfile, cfg.Keyfile)
+	if credsErr != nil {
+		return credsErr
+	}
+
+	gRPC := grpc.NewServer(grpc.Creds(creds))
 	proto.RegisterPaymentServiceServer(gRPC, paymentService)
 
 	srv, err := server.New(cfg.Port)
@@ -68,6 +76,5 @@ func initService(ctx context.Context, cfg model.Config, mongoDB *mongo.Database)
 		return fmt.Errorf("failed to create new server handler: %w", err)
 	}
 
-	log.Printf("starting payment service on port %s", cfg.Port)
 	return srv.ServeGRPC(ctx, gRPC)
 }
